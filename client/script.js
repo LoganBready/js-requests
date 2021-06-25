@@ -2,6 +2,8 @@
 //THE TEST SERVER IS RUNNING ON LOCALHOST:3000//
 ////////////////////////////////////////////////
 
+// const { default: axios } = require("axios");
+
 // const { text } = require("express");
 
 
@@ -162,7 +164,7 @@ repeatBtn.addEventListener('click', repeatMyParam)
 // CODE HERE
 
 const getRequest = () => {
-    axios.get('http://localhost:3000/query-test?test=Taco').then( (res) => {
+    axios.get('http://localhost:3000/query-test/?test=Taco&test2=Taco2').then( (res) => {
         console.log(res.data)
 })
 }
@@ -188,9 +190,10 @@ console.log(getRequest)
     In the function that you wrote for Problem 8, change the URL to test a couple different scenarios. 
 
     1: Send no queries on the URL -- what happened? 
-
+    You get a message back saying you sent an empty query.  And a bunch of errors in the console. 
     2: Send more than 1 query on the URL -- what happened? 
-*/
+    Get a message saying you sent in a query with mutliple 
+*/  
 
 // Edit code in Problem 8
 
@@ -220,3 +223,24 @@ console.log(getRequest)
 */
 
 // CODE HERE 
+function createFood(event) {
+    event.preventDefault()
+    let foodInput = document.querySelector("#food").value;
+    const body = {
+        newFood: foodInput,
+    }
+    axios.post('http://localhost:3000/food/', body)
+    .then( (res) => {
+        console.log(res.data)
+        let temp = document.createElement('li')
+        let tempText = document.createElement('span')
+        tempText.textContent = res.data[res.data.length - 1]
+        temp.appendChild(tempText)
+        document.querySelector('#food-bank').appendChild(temp)
+    })
+    document.querySelector("input#food").value = ''
+}
+
+const addButton = document.getElementById("createFood");
+addButton.addEventListener('click', createFood);
+console.log(addButton)
